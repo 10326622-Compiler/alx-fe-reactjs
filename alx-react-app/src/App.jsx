@@ -1,7 +1,8 @@
-import WelcomeMessage from './components/WelcomeMessage'
+import WelcomeMessage from './components/WelcomeMessage';
 import Header from './Header';
 import MainContent from './MainContent';
 import Footer from './Footer';
+import UserProfile from './components/UserProfile'
 // import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -10,6 +11,8 @@ import Footer from './Footer';
 function App() {
   return(
     <div>
+      <UserProfile name="Joseph" age="20" bio="Loves football and coding" />
+      <WelcomeMessage />
       <Header />
        <MainContent />
        <Footer />
