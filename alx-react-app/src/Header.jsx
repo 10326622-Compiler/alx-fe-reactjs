@@ -1,9 +1,9 @@
-const Header = () => {
-  return (
-    <header>
-      <h1>My Favorite Cities</h1>
-    </header>
-  );
-};
+function MainContent() {
+    return (
+        <main>
+            <p>I love to visit New York, Paris, and Tokyo.</p>
+        </main>
+    );
+}
 
-export default Header;
+export default MainContent;
