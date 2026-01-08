@@ -11,7 +11,7 @@ import UserProfile from './components/UserProfile'
 function App() {
   return(
     <div>
-      <UserProfile name="Joseph" age="20" bio="Loves football and coding" />
+      <UserProfile name="Alice" age="25" bio="Loves hiking and photography" />
       <WelcomeMessage />
       <Header />
        <MainContent />
