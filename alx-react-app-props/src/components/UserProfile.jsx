@@ -1,4 +1,11 @@
-function UserProfile(props) {
+// src/components/UserProfile.jsx
+import { useContext } from 'react';
+import UserContext from '../UserContext';
+
+function UserProfile() {
+  // Use useContext hook to access userData from UserContext
+  const userData = useContext(UserContext);
+
   return (
     <div style={{ 
       border: '1px solid gray', 
@@ -15,7 +22,7 @@ function UserProfile(props) {
         borderBottom: '2px solid blue',
         paddingBottom: '10px'
       }}>
-        {props.name}
+        {userData.name}
       </h2>
       <p style={{ 
         fontSize: '1.1em',
@@ -26,7 +33,7 @@ function UserProfile(props) {
           color: '#333',
           fontSize: '1.2em'
         }}>
-          {props.age}
+          {userData.age}
         </span>
       </p>
       <p style={{ 
@@ -35,8 +42,10 @@ function UserProfile(props) {
         color: '#555',
         fontStyle: 'italic'
       }}>
-        Bio: {props.bio}
+        Bio: {userData.bio}
       </p>
     </div>
   );
 }
+
+export default UserProfile;
