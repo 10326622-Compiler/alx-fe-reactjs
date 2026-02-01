@@ -15,7 +15,6 @@ const githubAPI = axios.create({
   }
 });
 
-
 export const advancedSearchUsers = async ({ username, location, minRepos, page = 1 }) => {
   // Start with the keyword (required by the GitHub Search API)
   let q = username.trim() || 'is:user';
@@ -40,10 +39,10 @@ export const advancedSearchUsers = async ({ username, location, minRepos, page =
     });
     return response.data;   // { total_count, items: [...] }
   } catch (error) {
-    console.error('Error in advanced user search:', error);
     throw error;
   }
 };
+
 
 export const searchUsers = async (query) => {
   try {
@@ -52,24 +51,15 @@ export const searchUsers = async (query) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error searching users:', error);
     throw error;
   }
 };
 
-/**
- * Fetch a single GitHub user by username.
- * Endpoint: https://api.github.com/users/{username}
- * @param {string} username - GitHub username to look up
- * @returns {Promise<Object>} - Resolves with the user object from the API
- * @throws {Error} - Rejects when the request fails (e.g. 404 for unknown users)
- */
 export const fetchUserData = async (username) => {
   try {
     const response = await githubAPI.get(`/users/${username}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching user data:', error);
     throw error;
   }
 };
@@ -84,7 +74,6 @@ export const getUserDetails = async (username) => {
     const response = await githubAPI.get(`/users/${username}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching user details:', error);
     throw error;
   }
 };
@@ -104,7 +93,6 @@ export const getUserRepositories = async (username) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching user repositories:', error);
     throw error;
   }
 };
