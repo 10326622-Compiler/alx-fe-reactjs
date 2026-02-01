@@ -1,42 +1,235 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding: 2rem;
-  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-header {
+  margin-bottom: 3rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.app-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.app-header p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.app-main {
+  flex: 1;
+}
+
+.search-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #0969da;
+}
+
+.search-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #0969da;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #0550ae;
+}
+
+.search-button:active {
+  transform: scale(0.98);
+}
+
+.results-container {
+  margin-top: 2rem;
+}
+
+.placeholder-text {
+  color: #666;
+  font-size: 1.1rem;
+  padding: 3rem;
+}
+
+.app-footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ddd;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.search-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.loading-text {
+  color: #0969da;
+  font-size: 1.1rem;
+  padding: 2rem;
+  font-weight: 500;
+}
+
+.error-text {
+  color: #cf222e;
+  font-size: 1.1rem;
+  padding: 2rem;
+  font-weight: 500;
+}
+
+/* ---- User Card ---------------------------------------------------------- */
+.user-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #e1e4e8;
+  border-radius: 12px;
+  margin-top: 1rem;
+  text-align: left;
+  background-color: #fff;
+}
+
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 3px solid #e1e4e8;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.user-name {
+  font-size: 1.25rem;
+  color: #24292e;
+  margin: 0;
+}
+
+.user-username {
+  font-size: 0.95rem;
+  color: #586069;
+  margin: 0;
+}
+
+.user-bio {
+  font-size: 0.9rem;
+  color: #586069;
+  margin: 0.25rem 0 0;
+  font-style: italic;
+}
+
+.user-profile-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #0969da;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.user-profile-link:hover {
+  color: #0550ae;
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .app-header h1 {
+    color: #e6e6e6;
   }
-  to {
-    transform: rotate(360deg);
+
+  .app-header p,
+  .placeholder-text,
+  .app-footer {
+    color: #999;
+  }
+
+  .search-input {
+    background-color: #1a1a1a;
+    border-color: #444;
+    color: #e6e6e6;
+  }
+
+  .search-input:focus {
+    border-color: #0969da;
+  }
+
+  .user-card {
+    background-color: #2a2a2a;
+    border-color: #444;
+  }
+
+  .user-avatar {
+    border-color: #555;
+  }
+
+  .user-name {
+    color: #e6e6e6;
+  }
+
+  .user-username,
+  .user-bio {
+    color: #aaa;
+  }
+
+  .error-text {
+    color: #f85149;
+  }
+
+  .app-footer {
+    border-top-color: #444;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .app-header h1 {
+    font-size: 2rem;
+  }
 
-.read-the-docs {
-  color: #888;
+  .search-form {
+    flex-direction: column;
+  }
+
+  .search-button {
+    width: 100%;
+  }
 }
