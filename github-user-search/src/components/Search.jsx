@@ -1,21 +1,7 @@
 import { useState } from 'react';
 import { fetchUserData } from '../services/githubService';
-import UserCard from './UserCard';
 
-/**
- * Search Component
- *
- * Responsibilities:
- *  - Render a form with a text input for the GitHub username.
- *  - On submit, call fetchUserData and track three states:
- *      loading  – true while the network request is in flight
- *      error    – truthy when the request fails (user not found, network error, …)
- *      user     – the resolved user object on success, or null otherwise
- *  - Conditionally render one of three views:
- *      1. "Loading …"              while loading === true
- *      2. "Looks like we cant find the user"  while error is set
- *      3. <UserCard />             when a user object is available
- */
+
 const Search = () => {
   // --- form state -----------------------------------------------------------
   const [username, setUsername] = useState('');
@@ -59,7 +45,28 @@ const Search = () => {
     }
 
     if (user) {
-      return <UserCard user={user} />;
+      return (
+        <div className="user-card">
+          <img
+            src={user.avatar_url}
+            alt={`${user.login}'s avatar`}
+            className="user-avatar"
+          />
+          <div className="user-info">
+            <h3 className="user-name">{user.name || user.login}</h3>
+            <p className="user-username">@{user.login}</p>
+            {user.bio && <p className="user-bio">{user.bio}</p>}
+            <a
+              href={user.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="user-profile-link"
+            >
+              View Profile
+            </a>
+          </div>
+        </div>
+      );
     }
 
     // Default: nothing has been searched yet
