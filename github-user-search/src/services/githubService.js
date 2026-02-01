@@ -15,11 +15,36 @@ const githubAPI = axios.create({
   }
 });
 
-/**
- * Search for GitHub users
- * @param {string} query - Search query (username)
- * @returns {Promise} - Axios promise with user search results
- */
+
+export const advancedSearchUsers = async ({ username, location, minRepos, page = 1 }) => {
+  // Start with the keyword (required by the GitHub Search API)
+  let q = username.trim() || 'is:user';
+
+  // Append location qualifier when the user provided one
+  if (location && location.trim()) {
+    q += ` location:${location.trim()}`;
+  }
+
+  // Append minimum-repos qualifier when the user provided one
+  if (minRepos && Number(minRepos) > 0) {
+    q += ` repos:>${Number(minRepos)}`;
+  }
+
+  try {
+    const response = await githubAPI.get('/search/users', {
+      params: {
+        q,
+        per_page: 10,   // 10 results per page – easy to paginate
+        page,
+      },
+    });
+    return response.data;   // { total_count, items: [...] }
+  } catch (error) {
+    console.error('Error in advanced user search:', error);
+    throw error;
+  }
+};
+
 export const searchUsers = async (query) => {
   try {
     const response = await githubAPI.get(`/search/users`, {
