@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { advancedSearchUsers } from '../services/githubService';
+import { advancedSearchUsers, fetchUserData } from '../services/githubService';
 
 
 const Search = () => {
@@ -15,25 +15,34 @@ const Search = () => {
   const [page, setPage]           = useState(1);
   const [hasMore, setHasMore]     = useState(false);
 
-  
+ 
   const fetchUsers = async (pageToFetch, append = false) => {
     setLoading(true);
     setError(null);
 
     try {
-      const data = await advancedSearchUsers({
-        username,
-        location,
-        minRepos,
-        page: pageToFetch,
-      });
+      const hasFilters = (location && location.trim()) || (minRepos && Number(minRepos) > 0);
 
-      // Append to existing list OR replace it
-      setUsers(prev => append ? [...prev, ...data.items] : data.items);
+      if (!hasFilters && username.trim()) {
+        // --- simple path: single exact-username lookup via fetchUserData ---
+        const userData = await fetchUserData(username.trim());
+        // Wrap the single object in an array so the card-list render works unchanged
+        setUsers([userData]);
+        setHasMore(false);
+        setPage(1);
+      } else {
+        // --- advanced path: filtered search returning multiple results ---
+        const data = await advancedSearchUsers({
+          username,
+          location,
+          minRepos,
+          page: pageToFetch,
+        });
 
-      // GitHub returns 10 per page; if we got a full page there might be more
-      setHasMore(data.items.length === 10);
-      setPage(pageToFetch);
+        setUsers(prev => append ? [...prev, ...data.items] : data.items);
+        setHasMore(data.items.length === 10);
+        setPage(pageToFetch);
+      }
     } catch (err) {
       setError(err);
     } finally {
