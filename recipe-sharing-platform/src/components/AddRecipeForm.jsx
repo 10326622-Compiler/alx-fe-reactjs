@@ -18,6 +18,11 @@ function AddRecipeForm() {
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Alternative: You can also access directly via e.target.value and e.target.name
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
