@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const RegistrationForm = () => {
+  // Step 1: Initialize state for each form field and errors
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -10,98 +11,121 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
+  // Step 2: Handle input changes — this makes every field a "controlled" input
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    // Clear the error for the field being edited
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  // Step 3: Basic validation — check no fields are empty
   const validate = () => {
-    let newErrors = {};
+    const newErrors = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = "Username is required";
+      newErrors.username = "Username is required.";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Enter a valid email address.";
     }
 
     if (!formData.password.trim()) {
-      newErrors.password = "Password is required";
+      newErrors.password = "Password is required.";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
     }
 
     return newErrors;
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+  // Step 4: Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccessMessage("");
 
     const validationErrors = validate();
-    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
-    if (Object.keys(validationErrors).length === 0) {
-      try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
+    try {
+      // Mock API call — simulating a POST request to a registration endpoint
+      const response = await fetch("https://jsonplaceholder.typicode.com/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-        if (response.ok) {
-          setSuccessMessage("User registered successfully!");
-          setFormData({ username: "", email: "", password: "" });
-        }
-      } catch (error) {
-        console.error("Error:", error);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Registration successful:", data);
+        setSuccessMessage("Registration successful! Welcome, " + formData.username + "!");
+        // Reset form after successful submission
+        setFormData({ username: "", email: "", password: "" });
+      } else {
+        setErrors({ api: "Registration failed. Please try again." });
       }
+    } catch (error) {
+      setErrors({ api: "Network error. Please check your connection." });
     }
   };
 
   return (
-    <div>
-      <h2>Registration Form (Controlled)</h2>
+    <div className="form-container">
+      <h2>Register (Controlled Component)</h2>
 
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+      {successMessage && <p className="success-msg">{successMessage}</p>}
+      {errors.api && <p className="error-msg">{errors.api}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
+      <form onSubmit={handleSubmit} noValidate>
+        {/* Username Field */}
+        <div className="field-group">
+          <label htmlFor="username">Username</label>
           <input
             type="text"
+            id="username"
             name="username"
-            value={formData.username}
-            onChange={handleChange}
+            value={formData.username}         // controlled: value comes from state
+            onChange={handleChange}            // updates state on every keystroke
+            placeholder="Enter your username"
           />
-          {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
+          {errors.username && <span className="error-msg">{errors.username}</span>}
         </div>
 
-        <div>
-          <label>Email:</label>
+        {/* Email Field */}
+        <div className="field-group">
+          <label htmlFor="email">Email</label>
           <input
             type="email"
+            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            placeholder="Enter your email"
           />
-          {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+          {errors.email && <span className="error-msg">{errors.email}</span>}
         </div>
 
-        <div>
-          <label>Password:</label>
+        {/* Password Field */}
+        <div className="field-group">
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
+            placeholder="Enter your password (min 6 chars)"
           />
-          {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+          {errors.password && <span className="error-msg">{errors.password}</span>}
         </div>
 
         <button type="submit">Register</button>
@@ -111,4 +135,3 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
-// sfdfhfgyuyuw
