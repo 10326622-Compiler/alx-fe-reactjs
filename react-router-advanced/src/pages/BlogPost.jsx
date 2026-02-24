@@ -4,29 +4,29 @@ import { POSTS } from './Blog';
 // ─── BlogPost ──────────────────────────────────────────────────────────────────
 // This component demonstrates DYNAMIC ROUTING.
 //
-// The route is defined as: /blog/:postId
-// `:postId` is a URL parameter — it can be any value (1, 2, "hello", etc.)
+// The route is defined as: /blog/:id
+// `:id` is a URL parameter — it can be any value (1, 2, "hello", etc.)
 //
 // useParams() reads the current URL and returns an object of all params.
-// So for the URL /blog/3 → useParams() returns { postId: "3" }
+// So for the URL /blog/3 → useParams() returns { id: "3" }
 //
 // This single component handles ALL blog post URLs — no separate component
 // needed per post. The content changes based on the URL parameter.
 const BlogPost = () => {
-  const { postId } = useParams(); // reads `:postId` from the URL
+  const { id } = useParams(); // reads `:id` from the URL
   const navigate = useNavigate();
 
-  // Find the matching post — postId from URL is always a string, so parse it
-  const post = POSTS.find((p) => p.id === parseInt(postId));
+  // Find the matching post — id from URL is always a string, so parse it
+  const post = POSTS.find((p) => p.id === parseInt(id));
 
-  // Handle invalid postId (e.g., /blog/999 or /blog/abc)
+  // Handle invalid id (e.g., /blog/999 or /blog/abc)
   if (!post) {
     return (
       <div className='page'>
         <div className='not-found'>
           <h2>❌ Post Not Found</h2>
           <p>
-            No post exists with ID: <code>{postId}</code>
+            No post exists with ID: <code>{id}</code>
           </p>
           <Link to='/blog' className='back-btn'>← Back to Blog</Link>
         </div>
@@ -41,8 +41,8 @@ const BlogPost = () => {
 
   // Extended body content for the post detail view
   const bodyContent = [
-    `This is the full content of "${post.title}". In a real application, this would be fetched from an API using the postId parameter extracted from the URL.`,
-    `The URL for this post is /blog/${post.id}. React Router matched the route pattern /blog/:postId and made the value "${post.id}" available via the useParams() hook.`,
+    `This is the full content of "${post.title}". In a real application, this would be fetched from an API using the id parameter extracted from the URL.`,
+    `The URL for this post is /blog/${post.id}. React Router matched the route pattern /blog/:id and made the value "${post.id}" available via the useParams() hook.`,
     `Dynamic routing means this single BlogPost component handles any valid post ID. You could navigate to /blog/1, /blog/2, or /blog/100 and the same component renders — just with different data each time.`,
   ];
 
@@ -54,8 +54,8 @@ const BlogPost = () => {
 
       {/* Dynamic Route Info Banner */}
       <div className='dynamic-banner'>
-        <strong>🔗 Dynamic Route Demo:</strong> URL is <code>/blog/{postId}</code>.{' '}
-        The value <code>{postId}</code> was extracted using{' '}
+        <strong>🔗 Dynamic Route Demo:</strong> URL is <code>/blog/{id}</code>.{' '}
+        The value <code>{id}</code> was extracted using{' '}
         <code>useParams()</code>.
       </div>
 
