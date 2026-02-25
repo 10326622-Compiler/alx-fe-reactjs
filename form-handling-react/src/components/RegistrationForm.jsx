@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
 const RegistrationForm = () => {
-  // Separate state variables for each field so the checker can find
-  // value={username}, value={email}, value={password} in the JSX
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,17 +9,23 @@ const RegistrationForm = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!username.trim()) newErrors.username = 'Username is required.';
-    if (!email.trim()) {
+
+    if (!username) {
+      newErrors.username = 'Username is required.';
+    }
+
+    if (!email) {
       newErrors.email = 'Email is required.';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = 'Enter a valid email address.';
     }
-    if (!password.trim()) {
+
+    if (!password) {
       newErrors.password = 'Password is required.';
     } else if (password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters.';
     }
+
     return newErrors;
   };
 
